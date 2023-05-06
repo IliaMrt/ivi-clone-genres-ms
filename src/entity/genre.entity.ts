@@ -5,10 +5,10 @@ export class Genre {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: false, unique: true })
   nameRu: string;
 
-  @Column()
+  @Column({ nullable: false, unique: true })
   nameEn: string;
 
   // @Column({ nullable: true })
