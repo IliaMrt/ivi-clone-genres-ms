@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
+import { GenreByIdMessageDto } from "./dto/genre-by-id-message.dto";
 
 @Injectable()
 export class AppService {
@@ -23,14 +24,18 @@ export class AppService {
     return this.genreRepository.find();
   }
 
-  async getGenre(genreId: number): Promise<Genre> {
+  async getGenreById(
+    getGenreByIdMessageDto: GenreByIdMessageDto,
+  ): Promise<Genre> {
     console.log('Genres MS - Service - getGenre at', new Date());
-    return this.genreRepository.findOneBy({ id: genreId });
+    return this.genreRepository.findOneBy({ id: getGenreByIdMessageDto.genreId });
   }
 
-  async deleteGenre(genreId: number): Promise<DeleteResult> {
+  async deleteGenre(
+    getGenreByIdMessageDto: GenreByIdMessageDto,
+  ): Promise<DeleteResult> {
     console.log('Genres MS - Service - deleteGenre at', new Date());
-    return this.genreRepository.delete(genreId);
+    return this.genreRepository.delete(getGenreByIdMessageDto.genreId);
   }
 
   async updateGenre(updateGenreDto: UpdateGenreDto): Promise<UpdateResult> {

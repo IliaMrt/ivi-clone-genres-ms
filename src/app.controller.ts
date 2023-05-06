@@ -5,6 +5,7 @@ import { Genre } from './entity/genre.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { UpdateGenreDto } from './dto/update-genre.dto';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
+import { GenreByIdMessageDto } from "./dto/genre-by-id-message.dto";
 
 @Controller()
 export class AppController {
@@ -24,16 +25,20 @@ export class AppController {
     return this.appService.getAllGenres();
   }
 
-  @MessagePattern({ cmd: 'getGenre' })
-  async getGenre(genreId: number): Promise<Genre> {
+  @MessagePattern({ cmd: 'getGenreById' })
+  async getGenreById(
+    getGenreByIdMessageDto: GenreByIdMessageDto,
+  ): Promise<Genre> {
     console.log('Genres MS - Controller - getGenre at', new Date());
-    return this.appService.getGenre(genreId);
+    return this.appService.getGenreById(getGenreByIdMessageDto);
   }
 
   @MessagePattern({ cmd: 'deleteGenre' })
-  async deleteGenre(genreId: number): Promise<DeleteResult> {
+  async deleteGenre(
+    getGenreByIdMessageDto: GenreByIdMessageDto,
+  ): Promise<DeleteResult> {
     console.log('Genres MS - Controller - deleteGenre at', new Date());
-    return this.appService.deleteGenre(genreId);
+    return this.appService.deleteGenre(getGenreByIdMessageDto);
   }
 
   @MessagePattern({ cmd: 'updateGenre' })
