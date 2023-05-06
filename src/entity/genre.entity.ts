@@ -11,6 +11,6 @@ export class Genre {
   @Column()
   nameEn: string;
 
-  @Column({ nullable: true })
-  movies: string;
+  // @Column({ nullable: true })
+  // movies: string;
 }

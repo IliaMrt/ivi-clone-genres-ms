@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateGenreDto } from './dto/create-genre.dto';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
 import { UpdateGenreDto } from './dto/update-genre.dto';
+import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
 
 @Injectable()
 export class AppService {
@@ -11,9 +11,11 @@ export class AppService {
     @InjectRepository(Genre) private genreRepository: Repository<Genre>,
   ) {}
 
-  async createGenre(createGenreDto: CreateGenreDto): Promise<Genre> {
+  async createGenre(
+    createGenreMessageDto: CreateGenreMessageDto,
+  ): Promise<Genre> {
     console.log('Genres MS - Service - createGenre at', new Date());
-    return this.genreRepository.save(createGenreDto);
+    return this.genreRepository.save(createGenreMessageDto.createGenreDto);
   }
 
   async getAllGenres(): Promise<Genre[]> {
