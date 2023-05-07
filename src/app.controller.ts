@@ -3,9 +3,9 @@ import { AppService } from './app.service';
 import { MessagePattern } from '@nestjs/microservices';
 import { Genre } from './entity/genre.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { UpdateGenreDto } from './dto/update-genre.dto';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
-import { GenreByIdMessageDto } from "./dto/genre-by-id-message.dto";
+import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
+import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
 
 @Controller()
 export class AppController {
@@ -42,8 +42,10 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'updateGenre' })
-  async updateGenre(updateGenreDto: UpdateGenreDto): Promise<UpdateResult> {
+  async updateGenre(
+    updateGenreMessageDto: UpdateGenreMessageDto,
+  ): Promise<UpdateResult> {
     console.log('Genres MS - Controller - updateGenre at', new Date());
-    return this.appService.updateGenre(updateGenreDto);
+    return this.appService.updateGenre(updateGenreMessageDto);
   }
 }

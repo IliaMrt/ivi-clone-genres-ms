@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
-import { UpdateGenreDto } from './dto/update-genre.dto';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
-import { GenreByIdMessageDto } from "./dto/genre-by-id-message.dto";
+import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
+import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
 
 @Injectable()
 export class AppService {
@@ -28,7 +28,9 @@ export class AppService {
     getGenreByIdMessageDto: GenreByIdMessageDto,
   ): Promise<Genre> {
     console.log('Genres MS - Service - getGenre at', new Date());
-    return this.genreRepository.findOneBy({ id: getGenreByIdMessageDto.genreId });
+    return this.genreRepository.findOneBy({
+      id: getGenreByIdMessageDto.genreId,
+    });
   }
 
   async deleteGenre(
@@ -38,11 +40,13 @@ export class AppService {
     return this.genreRepository.delete(getGenreByIdMessageDto.genreId);
   }
 
-  async updateGenre(updateGenreDto: UpdateGenreDto): Promise<UpdateResult> {
+  async updateGenre(
+    updateGenreMessageDto: UpdateGenreMessageDto,
+  ): Promise<UpdateResult> {
     console.log('Genres MS - Service - updateGenre at', new Date());
-    return this.genreRepository.update(updateGenreDto.genreId, {
-      nameRu: updateGenreDto.genreData.nameRu,
-      nameEn: updateGenreDto.genreData.nameEn,
+    return this.genreRepository.update(updateGenreMessageDto.genreId, {
+      nameRu: updateGenreMessageDto.updateGenreDto.nameRu,
+      nameEn: updateGenreMessageDto.updateGenreDto.nameEn,
     });
   }
 }
