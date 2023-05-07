@@ -8,7 +8,7 @@ import { Genre } from './entity/genre.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'genres_pg', // 'localhost' if starting on localhost
       port: 5432,
       username: 'admin',
       password: 'admin',
