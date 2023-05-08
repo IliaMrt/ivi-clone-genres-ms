@@ -7,7 +7,7 @@ async function bootstrap() {
   const microservice = app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://rabbitmq:5672'],  // 'amqp://localhost:5672' if starting on localhost
+      urls: ['amqp://rabbitmq:5672'],  // 'amqp://localhost:5672' if starting on localhost else 'amqp://rabbitmq:5672'
       queue: 'toGenresMs',
       queueOptions: {
         durable: false,
