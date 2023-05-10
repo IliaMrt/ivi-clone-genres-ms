@@ -3,8 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
-
-const databaseHost = process.env.DB_HOST || 'localhost'; // 'localhost' if starting on localhost
+import { databaseHost } from './environment/variables';
 
 @Module({
   imports: [

@@ -1,9 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
-
-const rmqUrl = process.env.RMQ_URL || 'amqp://localhost:5672'; // 'amqp://localhost:5672' if starting on localhost else 'amqp://rabbitmq:5672'
-const port = process.env.APP_PORT || 3200;
+import { port, rmqUrl } from './environment/variables';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
