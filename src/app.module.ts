@@ -4,11 +4,13 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
 
+const databaseHost = process.env.DB_HOST || 'localhost'; // 'localhost' if starting on localhost
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'genres_pg', // 'localhost' if starting on localhost
+      host: databaseHost,
       port: 5432,
       username: 'admin',
       password: 'admin',
