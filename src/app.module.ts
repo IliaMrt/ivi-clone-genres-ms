@@ -13,7 +13,7 @@ import { databaseHost } from './environment/variables';
       port: 5432,
       username: 'admin',
       password: 'admin',
-      database: 'general',
+      database: 'genres',
       entities: [Genre],
       synchronize: true,
     }),
