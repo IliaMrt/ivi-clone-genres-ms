@@ -48,4 +48,16 @@ export class AppController {
     console.log('Genres MS - Controller - updateGenre at', new Date());
     return this.appService.updateGenre(updateGenreMessageDto);
   }
+
+  @MessagePattern({ cmd: 'getMovieGenres' })
+  async getMovieGenres(getMovieGenresDto: { movieId: number }) {
+    console.log('Genres MS - Controller - getMovieGenres at', new Date());
+    return;
+  }
+
+  @MessagePattern({ cmd: 'loadMovieGenres' })
+  async loadMovieGenres(loadMovieGenresDto: { movieId: number }) {
+    console.log('Genres MS - Controller - getMovieGenres at', new Date());
+    return;
+  }
 }
