@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Movie } from './movie.entity';
 
 @Entity()
 export class Genre {
@@ -11,6 +12,6 @@ export class Genre {
   @Column({ nullable: false, unique: true })
   nameEn: string;
 
-  // @Column({ nullable: true })
-  // movies: string;
+  @ManyToMany(() => Movie, (movie) => movie.genres)
+  movies: Movie[];
 }

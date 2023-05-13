@@ -5,6 +5,7 @@ import { Genre } from './entity/genre.entity';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
 import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
 import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
+import { LoadMovieGenresDto } from './dto/load-movie-genres.dto';
 
 @Injectable()
 export class AppService {
@@ -48,5 +49,10 @@ export class AppService {
       nameRu: updateGenreMessageDto.updateGenreDto.nameRu,
       nameEn: updateGenreMessageDto.updateGenreDto.nameEn,
     });
+  }
+
+  async loadMovieGenres(loadMovieGenresDto: LoadMovieGenresDto) {
+    console.log('Genres MS - Service - loadMovieGenres at', new Date());
+    return;
   }
 }
