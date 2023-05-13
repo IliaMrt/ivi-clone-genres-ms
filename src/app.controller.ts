@@ -6,7 +6,7 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
 import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
 import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
-import { LoadMovieGenresDto } from './dto/load-movie-genres.dto';
+import { AddGenresToMovieDto } from './dto/add-genres-to-movie.dto';
 
 @Controller()
 export class AppController {
@@ -56,9 +56,9 @@ export class AppController {
     return;
   }
 
-  @MessagePattern({ cmd: 'loadMovieGenres' })
-  async loadMovieGenres(loadMovieGenresDto: LoadMovieGenresDto) {
+  @MessagePattern({ cmd: 'addGenresToMovie' })
+  async addGenresToMovie(addGenresToMovieDto: AddGenresToMovieDto) {
     console.log('Genres MS - Controller - getMovieGenres at', new Date());
-    return this.appService.loadMovieGenres(loadMovieGenresDto);
+    return this.appService.addGenresToMovie(addGenresToMovieDto);
   }
 }

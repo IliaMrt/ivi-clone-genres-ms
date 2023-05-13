@@ -1,4 +1,4 @@
-export class LoadMovieGenresDto {
+export class AddGenresToMovieDto {
   movieId: number;
   genres: number[];
 }

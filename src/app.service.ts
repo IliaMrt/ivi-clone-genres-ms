@@ -5,12 +5,14 @@ import { Genre } from './entity/genre.entity';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
 import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
 import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
-import { LoadMovieGenresDto } from './dto/load-movie-genres.dto';
+import { AddGenresToMovieDto } from './dto/add-genres-to-movie.dto';
+import { Movie } from './entity/movie.entity';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(Genre) private genreRepository: Repository<Genre>,
+    @InjectRepository(Movie) private movieRepository: Repository<Movie>,
   ) {}
 
   async createGenre(
@@ -51,8 +53,33 @@ export class AppService {
     });
   }
 
-  async loadMovieGenres(loadMovieGenresDto: LoadMovieGenresDto) {
-    console.log('Genres MS - Service - loadMovieGenres at', new Date());
-    return;
+  async addGenresToMovie(addGenresToMovieDto: AddGenresToMovieDto) {
+    console.log('Genres MS - Service - addGenresToMovie at', new Date());
+
+    //Create movie if not exists
+    if (
+      !(await this.movieRepository.findOneBy({
+        movieId: addGenresToMovieDto.movieId,
+      }))
+    ) {
+      console.log(addGenresToMovieDto);
+      await this.movieRepository.save({ movieId: addGenresToMovieDto.movieId });
+    }
+
+    //Get movie
+    const movie = await this.movieRepository.findOneBy({
+      movieId: addGenresToMovieDto.movieId,
+    });
+
+    //Adding genres to movie
+    movie.genres = [];
+    for (const genreId of addGenresToMovieDto.genres) {
+      const genre = await this.genreRepository.findOneBy({
+        id: genreId,
+      });
+      movie.genres.push(genre);
+    }
+
+    return await this.movieRepository.save(movie);
   }
 }
