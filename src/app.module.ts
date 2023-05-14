@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
-import { databaseHost } from './environment/variables';
+import { databaseHost, databaseName, databasePassword, databaseUsername } from "./environment/variables";
 import { Movie } from './entity/movie.entity';
 
 @Module({
@@ -12,9 +12,9 @@ import { Movie } from './entity/movie.entity';
       type: 'postgres',
       host: databaseHost,
       port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'genres',
+      username: databaseUsername,
+      password: databasePassword,
+      database: databaseName,
       entities: [Genre, Movie],
       synchronize: true,
     }),
