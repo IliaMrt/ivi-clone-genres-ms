@@ -125,4 +125,8 @@ export class AppService {
 
     return moviesWithAllGenresIds;
   }
+
+  async deleteMovieFromGenres(movieId: number) {
+    return this.movieRepository.delete({ movieId: movieId });
+  }
 }
