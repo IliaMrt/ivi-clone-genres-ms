@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
 import { databaseHost } from './environment/variables';
+import { Movie } from './entity/movie.entity';
 
 @Module({
   imports: [
@@ -14,10 +15,10 @@ import { databaseHost } from './environment/variables';
       username: 'postgres',
       password: 'postgres',
       database: 'genres',
-      entities: [Genre],
+      entities: [Genre, Movie],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([Genre]),
+    TypeOrmModule.forFeature([Genre, Movie]),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,6 +6,8 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
 import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
 import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
+import { AddGenresToMovieDto } from './dto/add-genres-to-movie.dto';
+import { GetMoviesByGenresDto } from './dto/get-movies-by-genres.dto';
 
 @Controller()
 export class AppController {
@@ -49,15 +51,26 @@ export class AppController {
     return this.appService.updateGenre(updateGenreMessageDto);
   }
 
-  @MessagePattern({ cmd: 'getMovieGenres' })
-  async getMovieGenres(getMovieGenresDto: { movieId: number }) {
+  @MessagePattern({ cmd: 'addGenresToMovie' })
+  async addGenresToMovie(addGenresToMovieDto: AddGenresToMovieDto) {
     console.log('Genres MS - Controller - getMovieGenres at', new Date());
-    return;
+    return this.appService.addGenresToMovie(addGenresToMovieDto);
   }
 
-  @MessagePattern({ cmd: 'loadMovieGenres' })
-  async loadMovieGenres(loadMovieGenresDto: { movieId: number }) {
-    console.log('Genres MS - Controller - getMovieGenres at', new Date());
-    return;
+  @MessagePattern({ cmd: 'getMoviesByGenres' })
+  async getMoviesByGenres(getMoviesByGenresDto: GetMoviesByGenresDto) {
+    console.log('Genres MS - Controller - getMoviesByGenres at', new Date());
+    return this.appService.getMoviesByGenres(getMoviesByGenresDto);
+  }
+
+  @MessagePattern({ cmd: 'deleteMovieFromGenres' })
+  async deleteMovieFromGenres(deleteMovieFromGenresDto: { movieId: number }) {
+    console.log(
+      'Genres MS - Controller - deleteMovieFromGenres at',
+      new Date(),
+    );
+    return this.appService.deleteMovieFromGenres(
+      deleteMovieFromGenresDto.movieId,
+    );
   }
 }
