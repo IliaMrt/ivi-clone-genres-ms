@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Genre } from './entity/genre.entity';
 import { CreateGenreMessageDto } from './dto/create-genre-message.dto';
@@ -7,6 +6,8 @@ import { GenreByIdMessageDto } from './dto/genre-by-id-message.dto';
 import { UpdateGenreMessageDto } from './dto/update-genre-message.dto';
 import { AddGenresToMovieDto } from './dto/add-genres-to-movie.dto';
 import { Movie } from './entity/movie.entity';
+import { GetMoviesByGenresDto } from './dto/get-movies-by-genres.dto';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class AppService {
@@ -81,5 +82,47 @@ export class AppService {
     }
 
     return await this.movieRepository.save(movie);
+  }
+
+  async getMoviesByGenres(getMoviesByGenresDto: GetMoviesByGenresDto) {
+    console.log('Genres MS - Service - getMoviesByGenresDto at', new Date());
+    const genresCounter = { value: 0 };
+    const allDuplicatedMoviesIds = [];
+    for (const genreNameEn of getMoviesByGenresDto.genres) {
+      const capitalizedNameEn =
+        genreNameEn.charAt(0).toUpperCase() + genreNameEn.slice(1);
+      const moviesByGenre = await this.movieRepository.find({
+        relations: {
+          genres: true,
+        },
+        where: {
+          genres: {
+            nameEn: capitalizedNameEn,
+          },
+        },
+      });
+      const moviesByGenreIds = moviesByGenre.map((movie) => movie.movieId);
+
+      genresCounter.value++;
+      allDuplicatedMoviesIds.push(...moviesByGenreIds);
+    }
+
+    const countedIdsIncomes = {};
+    for (const id of allDuplicatedMoviesIds) {
+      countedIdsIncomes[id] =
+        countedIdsIncomes[id] >= 1
+          ? (countedIdsIncomes[id] = countedIdsIncomes[id] + 1)
+          : 1;
+    }
+
+    const moviesWithAllGenresIds = [];
+
+    for (const counter of Object.keys(countedIdsIncomes)) {
+      if (countedIdsIncomes[counter] == genresCounter.value) {
+        moviesWithAllGenresIds.push(counter);
+      }
+    }
+
+    return moviesWithAllGenresIds;
   }
 }
