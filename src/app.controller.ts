@@ -73,4 +73,10 @@ export class AppController {
       deleteMovieFromGenresDto.movieId,
     );
   }
+
+  @MessagePattern({ cmd: 'getGenresByMoviesIds' })
+  async getGenresByMoviesIds(getGenresByMoviesIdsDto: { movies: number[] }) {
+    console.log('Genres MS - Controller - getGenresByMoviesIds at', new Date());
+    return this.appService.getGenresByMoviesIds(getGenresByMoviesIdsDto.movies);
+  }
 }
