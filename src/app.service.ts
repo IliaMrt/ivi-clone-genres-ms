@@ -63,7 +63,6 @@ export class AppService {
         movieId: addGenresToMovieDto.movieId,
       }))
     ) {
-      console.log(addGenresToMovieDto);
       await this.movieRepository.save({ movieId: addGenresToMovieDto.movieId });
     }
 
@@ -127,6 +126,32 @@ export class AppService {
   }
 
   async deleteMovieFromGenres(movieId: number) {
+    console.log('Genres MS - Service - deleteMovieFromGenres at', new Date());
     return this.movieRepository.delete({ movieId: movieId });
+  }
+
+  async getGenresByMoviesIds(movies: number[]) {
+    console.log('Genres MS - Service - getGenresByMoviesIds at', new Date());
+    const moviesWithGenresArrays = [];
+    for (const movieId of movies) {
+      moviesWithGenresArrays.push(await this.movieGenresToArray(movieId));
+    }
+    return moviesWithGenresArrays;
+  }
+
+  private async movieGenresToArray(movieId: number) {
+    console.log(
+      'Genres MS - Service - PRIVATE movieGenresToArray at',
+      new Date(),
+    );
+    const movie = await this.movieRepository.findOne({
+      where: {
+        movieId: movieId,
+      },
+      relations: {
+        genres: true,
+      },
+    });
+    return [movie.movieId, movie.genres];
   }
 }
