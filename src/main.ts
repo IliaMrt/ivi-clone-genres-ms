@@ -1,14 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Transport } from '@nestjs/microservices';
-import { databaseHost, port, rmqUrl } from './environment/variables';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const microservice = app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: [rmqUrl],
+      urls: [process.env.RMQ_URL],
       queue: 'toGenresMs',
       queueOptions: {
         durable: false,
@@ -17,11 +16,12 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(port, () => {
-    console.log(`Genres MS started on ${port}.`);
+  await app.listen(process.env.APP_PORT, () => {
+    console.log(`Genres MS started on ${process.env.APP_PORT} at ${new Date()}.`);
     console.log('Application variables:');
-    console.log('RabbitMQ address: ', rmqUrl);
-    console.log('Database host: ', databaseHost);
+    console.log('RabbitMQ address: ', process.env.RMQ_URL);
+    console.log('Database host: ', process.env.DATABASE_HOST);
+    console.log('Database port: ', process.env.DATABASE_PORT);
   });
 }
 bootstrap();
